@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  todolist-rdbms:
+    image: postgres
+    environment:
+      POSTGRES_DB: postgres_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pgpassword
+    volumes:
+      - './.postgresql/:/var/lib/postgresql'
+    ports:
+      - '5432:5432'
+  todolist-api:
+    build:
+      context: .
+      dockerfile: Dockerfile-Local
+    environment:
+      - GORM_HOST=todolist-rdbms
+    volumes:
+      - './:/app'
+    ports:
+      - "1324:1324"
