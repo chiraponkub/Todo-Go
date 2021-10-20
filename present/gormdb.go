@@ -1,11 +1,11 @@
 package present
 
 import (
-	"ProjectEcho/access/constant"
-	"ProjectEcho/environment"
-	"ProjectEcho/present/structdb"
 	"errors"
 	"fmt"
+	"github.com/chiraponkub/Todo-Go/access/constant"
+	"github.com/chiraponkub/Todo-Go/environment"
+	"github.com/chiraponkub/Todo-Go/present/structdb"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -36,7 +36,7 @@ func (Connect *CustomerHandler) Initialize(env *environment.Properties) {
 
 // user
 
-func (Connect *CustomerHandler) Register(data structdb.User) (Error error) {
+func (Connect CustomerHandler) Register(data structdb.User) (Error error) {
 	err := Connect.DB.Session(&gorm.Session{FullSaveAssociations: true}).Save(&data).Error
 	if err != nil {
 		if !errors.Is(err, gorm.ErrRegistered) {
@@ -47,7 +47,7 @@ func (Connect *CustomerHandler) Register(data structdb.User) (Error error) {
 	return
 }
 
-func (Connect *CustomerHandler) GetUsername(username string) (res structdb.User, Error error) {
+func (Connect CustomerHandler) GetUsername(username string) (res structdb.User, Error error) {
 	var data structdb.User
 	db := Connect.DB
 	err := db.Where("username = ?", username).First(&data).Error
@@ -61,7 +61,7 @@ func (Connect *CustomerHandler) GetUsername(username string) (res structdb.User,
 	return
 }
 
-func (Connect *CustomerHandler) GetUser(id string, isNull bool) (res []structdb.User, Error error) {
+func (Connect CustomerHandler) DBGetUser(id string, isNull bool) (res []structdb.User, Error error) {
 	var data []structdb.User
 	db := Connect.DB
 	if isNull == true {
@@ -82,7 +82,7 @@ func (Connect *CustomerHandler) GetUser(id string, isNull bool) (res []structdb.
 	return
 }
 
-func (Connect *CustomerHandler) UpdateUser(data structdb.User) (Error error) {
+func (Connect CustomerHandler) UpdateUser(data structdb.User) (Error error) {
 	err := Connect.DB.Where("id = ?", data.ID).Updates(&data).Error
 	if err != nil {
 		Error = err
@@ -91,7 +91,7 @@ func (Connect *CustomerHandler) UpdateUser(data structdb.User) (Error error) {
 	return
 }
 
-func (Connect *CustomerHandler) DelUser(id uint) (Error error) {
+func (Connect CustomerHandler) DelUser(id uint) (Error error) {
 	db := Connect.DB
 	data := structdb.User{}
 	if err := db.Where("id = ? ", id).First(&data).Error; err != nil {
@@ -100,7 +100,7 @@ func (Connect *CustomerHandler) DelUser(id uint) (Error error) {
 			return
 		}
 	}
-	err := db.Where("id = ?", id).Delete(&data).Error
+	err := db.Select("Todo").Delete(&data).Error
 	if err != nil {
 		Error = err
 		return
@@ -110,10 +110,10 @@ func (Connect *CustomerHandler) DelUser(id uint) (Error error) {
 
 // todo
 
-func (Connect CustomerHandler) GetTodo(Userid uint) (res []structdb.Todo, Error error) {
-	var Data []structdb.Todo
+func (Connect CustomerHandler) GetTodo(Userid uint) (res []structdb.User, Error error) {
+	var Data []structdb.User
 	db := Connect.DB
-	err := db.Where("user_refer = ?", Userid).Find(&Data).Error
+	err := db.Where("id = ? and role != ? ", Userid, string(constant.Admin)).Preload("Todo").Find(&Data).Error
 	if err != nil {
 		Error = err
 		return
@@ -153,7 +153,7 @@ func (Connect CustomerHandler) EditTodo(data structdb.Todo, role string) (Error 
 		}
 	}
 
-	if role == string(constant.Admin){
+	if role == string(constant.Admin) {
 		err := db.Where("id = ?", data.ID).Take(&res).Error
 		if err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {

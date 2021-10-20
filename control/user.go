@@ -1,11 +1,11 @@
 package control
 
 import (
-	"ProjectEcho/access/constant"
-	"ProjectEcho/present/structdb"
-	"ProjectEcho/present/structure"
-	"ProjectEcho/utility"
 	"errors"
+	"github.com/chiraponkub/Todo-Go/access/constant"
+	"github.com/chiraponkub/Todo-Go/present/structdb"
+	"github.com/chiraponkub/Todo-Go/present/structure"
+	"github.com/chiraponkub/Todo-Go/utility"
 	"gorm.io/gorm"
 	"regexp"
 	"strconv"
@@ -46,12 +46,12 @@ func (ctrl *APIControl) GetUserAll(data []structdb.User) (res []structure.GetUse
 			LastName:  m1.LastName,
 			Role:      m1.Role,
 		}
-		res = append(res,resArray)
+		res = append(res, resArray)
 	}
 	return
 }
 
-func (ctrl *APIControl) Register(reqRegister *structure.Register) (res structdb.User,Error error) {
+func (ctrl *APIControl) Register(reqRegister *structure.Register) (res structdb.User, Error error) {
 	reqRegister.Username = strings.ToLower(reqRegister.Username)
 	reqRegister.Username = strings.Trim(reqRegister.Username, "\t \n")
 	reqRegister.Password = strings.Trim(reqRegister.Password, "\t \n")
@@ -108,14 +108,14 @@ func (ctrl *APIControl) Register(reqRegister *structure.Register) (res structdb.
 	return
 }
 
-func (ctrl *APIControl) EditProfile(reqEditProfile *structure.EditUser,paramId string) (User structdb.User, Error error) {
+func (ctrl *APIControl) EditProfile(reqEditProfile *structure.EditUser, paramId string) (User structdb.User, Error error) {
 	reqEditProfile.FirstName = strings.Trim(reqEditProfile.FirstName, "\t \n")
 	reqEditProfile.LastName = strings.Trim(reqEditProfile.LastName, "\t \n")
 
-	id ,_:= strconv.Atoi(paramId)
+	id, _ := strconv.Atoi(paramId)
 
 	res := structdb.User{
-		Model:     gorm.Model{
+		Model: gorm.Model{
 			ID:        uint(id),
 			UpdatedAt: time.Now(),
 		},

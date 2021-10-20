@@ -1,10 +1,10 @@
 package main
 
 import (
-	"ProjectEcho/access"
-	"ProjectEcho/control"
-	"ProjectEcho/environment"
-	"ProjectEcho/present"
+	"github.com/chiraponkub/Todo-Go/access"
+	"github.com/chiraponkub/Todo-Go/control"
+	"github.com/chiraponkub/Todo-Go/environment"
+	"github.com/chiraponkub/Todo-Go/present"
 	"log"
 	"os"
 	"os/signal"

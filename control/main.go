@@ -1,7 +1,7 @@
 package control
 
 import (
-	"ProjectEcho/access"
+	"github.com/chiraponkub/Todo-Go/access"
 	"sync"
 )
 
@@ -20,5 +20,3 @@ func APICreate(access *access.Access) *APIControl {
 	})
 	return &apiControl
 }
-
-

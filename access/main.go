@@ -1,7 +1,7 @@
 package access
 
 import (
-	"ProjectEcho/environment"
+	"github.com/chiraponkub/Todo-Go/environment"
 )
 
 type Access struct {
@@ -10,6 +10,6 @@ type Access struct {
 
 func Initial(properties *environment.Properties) *Access {
 	return &Access{
-		ENV:   properties,
+		ENV: properties,
 	}
 }

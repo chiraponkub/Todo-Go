@@ -1,31 +1,35 @@
 package control
 
 import (
-	"ProjectEcho/present/structdb"
-	"ProjectEcho/present/structure"
+	"github.com/chiraponkub/Todo-Go/present/structdb"
+	"github.com/chiraponkub/Todo-Go/present/structure"
 	"gorm.io/gorm"
 	"time"
 )
 
-func (ctrl APIControl) GetTodo(todo []structdb.Todo) (res interface{}, Error error) {
-
+func (ctrl APIControl) GetTodo(todo []structdb.User) (res interface{}, Error error) {
 	if len(todo) < 1 {
 		res = []structdb.Todo{}
 		return
 	}
 	var userId uint
+	var name string
 	var ArrayTodo []structure.Todo
 	for _, m1 := range todo {
-		userId = m1.UserRefer
-		Todo := structure.Todo{
-			Id:       m1.ID,
-			Text:     m1.Text,
-			IsActive: m1.IsActive,
+		userId = m1.ID
+		name = m1.FirstName + " " + m1.LastName
+		for _, m2 := range m1.Todo {
+			Todo := structure.Todo{
+				Id:       m2.ID,
+				Text:     m2.Text,
+				IsActive: m2.IsActive,
+			}
+			ArrayTodo = append(ArrayTodo, Todo)
 		}
-		ArrayTodo = append(ArrayTodo, Todo)
 	}
 	res = structure.UserRefer{
 		UserId: userId,
+		Name:   name,
 		Todo:   ArrayTodo,
 	}
 	return

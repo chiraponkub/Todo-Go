@@ -1,10 +1,10 @@
 package present
 
 import (
-	"ProjectEcho/access/constant"
-	"ProjectEcho/control"
-	"ProjectEcho/present/structure"
-	"ProjectEcho/utility"
+	"github.com/chiraponkub/Todo-Go/access/constant"
+	"github.com/chiraponkub/Todo-Go/control"
+	"github.com/chiraponkub/Todo-Go/present/structure"
+	"github.com/chiraponkub/Todo-Go/utility"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"

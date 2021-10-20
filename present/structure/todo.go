@@ -2,6 +2,7 @@ package structure
 
 type UserRefer struct {
 	UserId uint   `json:"user_id"`
+	Name   string `json:"name"`
 	Todo   []Todo `json:"todo"`
 }
 
@@ -12,7 +13,7 @@ type Todo struct {
 }
 
 type AddTodo struct {
-	Text   string `json:"text"`
+	Text string `json:"text"`
 }
 
 type EditTodo struct {

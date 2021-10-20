@@ -1,11 +1,11 @@
 package present
 
 import (
-	"ProjectEcho/access/constant"
-	"ProjectEcho/control"
-	"ProjectEcho/environment"
 	"errors"
 	"fmt"
+	"github.com/chiraponkub/Todo-Go/access/constant"
+	"github.com/chiraponkub/Todo-Go/control"
+	"github.com/chiraponkub/Todo-Go/environment"
 	"github.com/go-playground/validator"
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
@@ -60,7 +60,7 @@ func APICreate(*control.APIControl) {
 		AuthScheme:   "Bearer",
 	}))
 
-	user.GET("/:id", h.getUser)
+	user.GET("/:id", h.GetUser)
 	user.PUT("/:id", h.editProfile)
 
 	todo := user.Group("/todo")
@@ -93,10 +93,9 @@ func APICreate(*control.APIControl) {
 	admin.DELETE("/todo/:id", h.delTodo)
 
 	admin.GET("/user", h.getUserAll)
-	admin.GET("/user/:id", h.getUser)
+	admin.GET("/user/:id", h.GetUser)
 	admin.PUT("/user/:id", h.editProfile)
 	admin.DELETE("/user/:id", h.delUser)
-
 
 	e.Logger.Fatal(e.Start(":1324"))
 }
